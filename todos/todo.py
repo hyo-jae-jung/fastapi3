@@ -13,13 +13,13 @@ async def add_todo(todo: Todo) -> dict:
     }
 
 @todo_router.get("/todo")
-async def retrueve_todos() -> dict:
+async def retrieve_todos() -> dict:
     return {
         "todos": todo_list
     }
 
 @todo_router.get("/todo/{todo_id}")
-async def get_single_todo(todo_id: int = Path(..., title="The ID of The todo to retrieve.")) -> dict:
+async def get_single_todo(todo_id = Path(..., title="The ID of The todo to retrieve.")) -> dict:
     for todo in todo_list:
         if todo.id == todo_id:
             return {
