@@ -1,22 +1,20 @@
-from fastapi import FastAPI, Form
-from pydantic import BaseModel
+from fastapi import FastAPI, Depends
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    description: str = None
-    price: float
-    tax: float = None
+def depend(val:int) -> str:
+    if val>10:
+        return "a"
+    else:
+        return "b"
 
-@app.post("/items/")
-async def create_item(item: Item):
-    return item
+@app.get("/")
+def start():
+    return "Hello World"
 
-@app.post("/submit/")
-async def submit_form(name: str = Form(...), age: int = Form(...)):
-    return {"name": name, "age": age}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+@app.get("/{val}")
+def start(val: str = Depends(depend)):
+    return  {
+        "message":"Hello World",
+        "cnt":val
+    }
